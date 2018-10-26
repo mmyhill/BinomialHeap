@@ -1,3 +1,5 @@
+import math
+
 class BinomialNode:
     def __init__(self, key, value, children, parent):
         self.key = key
@@ -21,7 +23,10 @@ class BinomialNode:
         return self.children
 
     def addChild(self, child):
-        self.child.append(child)
+        if(self.children[0] == None):
+            self.children[0] == child
+        else:
+            self.children.append(child)
 
     def deleteChild(self, child):
         index = self.children.index(child)
@@ -41,6 +46,9 @@ class BinomialNode:
     def setParent(self, parent):
         self.parent = parent
 
+    def __repr__(self):
+        return "Node{ key : " + str(self.key) + ", value : " + str(self.value) + "}"
+
 
 class BinomialTree:
     def __init__(self):
@@ -54,7 +62,7 @@ class BinomialTree:
         return self.root
 
     def upDegree(self):
-        self.degree++;
+        self.degree += 1
 
     # def add(self, key, value):
     #     if (self.root == None):
@@ -68,10 +76,45 @@ class BinomialTree:
     def merge(self, tree):
         if(self.root < tree.getRoot()):
             self.root.addChild(tree.getRoot())
-            self.root.setDegree
+            self.root.upDegree()
         else:
             tree.getRoot().addChild(self.root)
 
+
+    def __repr__(self):
+        return self.printPart(self.root,0)
+
+    def printPart(self,node,width):
+        if(node==None):
+             return "X"
+
+        string=" "
+        halfway=math.floor(len(node.getChildren())/2)
+        for child in range(0,halfway):
+            string+=self.printPart(node.getChildren()[child],width+3)
+            string+="\n"+width*" "
+        string+=width*" "
+        string+=str(node.key)+"\n"
+        for child in range(halfway,len(node.getChildren())):
+            string+=self.printPart(node.getChildren()[child],width+3)
+            string+="\n"+width*" "
+        return string
+
+
+
+
 class BinomialHeap:
     def __init__(self):
-        self.heap
+        self.trees = []
+
+
+
+def main():
+    binTree = BinomialTree()
+    binTree.root = BinomialNode(4, "asdfasd", [BinomialNode(2, "ther", [BinomialNode(3, "there", [], None)], None), BinomialNode(6, "ther", [BinomialNode(3, "there", [], None)], None)], None)
+    print(binTree)
+
+
+
+if(__name__ == "__main__"):
+    main()
